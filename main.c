@@ -41,13 +41,17 @@ int main(int argc, char * argv[])
     avifDecoder * decoder = avifDecoderCreate();
 
     if(useParse) {
+        printf("Decoding using avifDecoderParse()/avifDecoderNextImage() ...\n");
+
+        image = emptyImage;
         avifResult decodeResult = avifDecoderRead(decoder, image, (avifROData *)&raw);
         if(decodeResult != AVIF_RESULT_OK) {
             printf("Failed to decode AVIF (using avifDecoderRead)\n");
             return 1; // leak!
         }
-        image = emptyImage;
     } else {
+        printf("Decoding using avifDecoderRead() ...\n");
+
         avifResult decodeResult = avifDecoderParse(decoder, (avifROData *)&raw);
         if(decodeResult != AVIF_RESULT_OK) {
             printf("Failed to decode AVIF (using avifDecoderParse)\n");
